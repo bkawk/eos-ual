@@ -1,4 +1,7 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {UALJs} from 'ual-plainjs-renderer'
+import {Scatter} from 'ual-scatter'
+import {Lynx} from 'ual-lynx'
 
 /**
  * `eos-ual`
@@ -21,12 +24,57 @@ class EosUal extends PolymerElement {
   }
   static get properties() {
     return {
-      prop1: {
+      chainId: {
         type: String,
-        value: 'eos-ual',
+      },
+      chainProtocol: {
+        type: String,
+      },
+      chainHost: {
+        type: String,
+      },
+      chainPort: {
+        type: String,
+      },
+      appName: {
+        type: String,
+      },
+      scatter: {
+        type: Boolean,
+        value: false,
+        observer: '_init'
+      },
+      lynx: {
+        type: Boolean,
+        value: false,
+        observer: '_init'
       },
     };
   }
-}
-
-window.customElements.define('eos-ual', EosUal);
+  _init() {
+    if(this.chainId && this.chainProtocol && this.chainHost && this.chainPort) {
+      const myCallback = arrayOfUsers => {
+        console.log(arrayOfUsers);
+      }
+      const myChain = {
+        chainId: this.chainId,
+        rpcEndpoints: [{
+          protocol: this.chainProtocol,
+          host: this.chainHost,
+          port: this.chainPort,
+        }]
+      }
+      const myAppName = this.appName
+      const scatter = new Scatter([myChain], { appName: myAppName })
+      const lynx = new Lynx([myChain], { appName: myAppName })
+      
+      const myAppRoot = {
+        containerElement: document.getElementById('EOS-ual')
+      }
+      
+      const ual = new UALJs(myCallback, [myChain], myAppName, [scatter, lynx], myAppRoot)
+      
+      ual.init()
+    }
+  }
+} window.customElements.define('eos-ual', EosUal);

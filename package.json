@@ -7,7 +7,10 @@
   "description": "Web Component for EOS Universal Authenticator Library",
   "main": "eos-ual.js",
   "dependencies": {
-    "@polymer/polymer": "^3.0.0"
+    "@polymer/polymer": "^3.0.0",
+    "ual-lynx": "^0.1.0",
+    "ual-plainjs-renderer": "^0.1.0",
+    "ual-scatter": "^0.1.0"
   },
   "devDependencies": {
     "@polymer/iron-demo-helpers": "^3.0.0-pre.19",
