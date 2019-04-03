@@ -24,6 +24,16 @@ class EosUal extends PolymerElement {
   }
   static get properties() {
     return {
+      ual: {
+        type: Object,
+        notify: true,
+        reflectToAttribute: true,
+      },
+      users: {
+        type: Array,
+        notify: true,
+        reflectToAttribute: true,
+      },
       chainId: {
         type: String,
       },
@@ -57,7 +67,7 @@ class EosUal extends PolymerElement {
   _init() {
     if(this.chainId && this.chainProtocol && this.chainHost && this.chainPort) {
       const myCallback = arrayOfUsers => {
-        console.log(arrayOfUsers);
+        this.users = arrayOfUsers;
       }
       const myChain = {
         chainId: this.chainId,
@@ -75,9 +85,11 @@ class EosUal extends PolymerElement {
         containerElement: document.getElementById(this.renderId)
       }
       
-      const ual = new UALJs(myCallback, [myChain], myAppName, [scatter, lynx], myAppRoot)
-      
-      ual.init()
+      this.ual = new UALJs(myCallback, [myChain], myAppName, [scatter, lynx], myAppRoot)
+      this.ual.init()
     }
+  }
+  _logout() {
+    this.ual.logoutUser()
   }
 } window.customElements.define('eos-ual', EosUal);
