@@ -49,6 +49,9 @@ class EosUal extends PolymerElement {
         value: false,
         observer: '_init'
       },
+      renderId: {
+        type: String,
+      }
     };
   }
   _init() {
@@ -69,7 +72,7 @@ class EosUal extends PolymerElement {
       const lynx = new Lynx([myChain], { appName: myAppName })
       
       const myAppRoot = {
-        containerElement: document.getElementById('EOS-ual')
+        containerElement: document.getElementById(this.renderId)
       }
       
       const ual = new UALJs(myCallback, [myChain], myAppName, [scatter, lynx], myAppRoot)
